@@ -1,5 +1,5 @@
-#Spring Notes
-###Source - O'Reily course - Spring Framework Essentials
+# Spring Notes
+### Source - O'Reily course - Spring Framework Essentials
 + Spring framework does not perform actual inversion of control. It is more of a historical thing. Actually it performs dependency injection.
 + `@Configuration` annotation on a class tells spring the class will provide the metadata required to provide the beans.
 + Spring also provides some built in library classes.
