@@ -15,8 +15,10 @@
 
 ### Annotation Configuration
 + `@Autowired` annotation can be used to configure a bean, does not matter where it is defined.
-`@Autowired` follows auto-wiring by type first, which means this only works if there is exactly one class of that type.
-We can solve this problem by defining a `@Qualifier("beanName)` next to `@Autowired`, which tells spring exactly which implementation to choose.
+    + `@Autowired` follows auto-wiring by type first, which means this only works if there is exactly one class of that type.
+    + We can solve this problem by defining a `@Qualifier("beanName)` next to `@Autowired`, which tells spring exactly which implementation to choose.
+    + Another way to do this is to auto-wiring all possible beans in a collection like `Set` or `List`, this way all available implementations are loaded in the collection.
+
 + Another better way is to use `@ComponentScan(basePackages = "com.atul")` at a class level. 
 This will perform a component scan for all the classes inside `com.atul` package which have `@Component` on top of them. 
 By Default the identification name for a bean is class name with first letter in lower case. 
@@ -53,3 +55,14 @@ The line starting with `xsi:schemaLocation` tells to validate the xml against th
 `<property name="myTeam" ref="home" />`
 + Note that `ref` can be used to refer to other beans, however `value` is used for primitive or String.
 + The component scan can be enabled in xml file using `<context:component-scan base-package="com.atul"/>`
+### Constructor and Setter Injection
++ A bean can be prepared by either constructor or by using setter methods. If the bean has to be immutable, 
+and it does not make sense to use the bean without having some members set, then use the constructor method, other wise setters can be used.
+
+### Bean Scopes
++ By default, all spring managed beans are singletons! defined by `@Scope("singleton")` which we do not need to write explicitly.
++ Default scope can be changed from singleton to prototype by putting @Scope("prototype") next to the `@Bean` annotation.
++ There are other scopes as well, and we can if we want define our own custom scopes.
++ Another important thing is that we cannot instantiate abstract classes using spring. To use them, we need to provide the factory method to get their instance.
+    + If the factory method lies in another class, then that bean also need to be instantiated and refered back by using `factory-bean`.
+

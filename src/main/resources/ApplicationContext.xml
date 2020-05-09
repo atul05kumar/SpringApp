@@ -6,8 +6,13 @@
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/beans/spring-context.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd">
    <context:component-scan base-package="com.atul"/>
     <bean id="home" class="com.atul.Home" />
+    <!--bean which is abstract can not be instantiated directly, need to use the factory method-->
+    <bean id="nf" class="java.text.NumberFormat" factory-method="getCurrencyInstance"/>
+    <!-- bean where factory method is in another class-->
+    <bean id="factory" class="javax.xml.parsers.DocumentBuilderFactory" factory-method="newInstance" /> <!-- first get the instance of the factory class.-->
+    <bean class="javax.xml.parsers.DocumentBuilder" factory-bean="factory" factory-method="newDocumentBuilder"/> <!-- then use the method of factory to get the instance.-->
 
 </beans>
