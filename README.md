@@ -35,4 +35,20 @@ public class AppConfig {
 }
 ``` 
 will look for a class with name `Home` to configure the bean.
+###  The classic XML Configuration Approach
++ One of the limitations of the Annotations approach is that you need to own the source code, as you cannot add annotations on the classes you do not own.
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+</beans>
+```
++ Here, `xmlns` stands for XML namespace, declares the namespace for a xml tag.
+The line starting with `xsi:schemaLocation` tells to validate the xml against the schema define by `http://www.springframework.org/schema/beans/spring-beans.xsd`
++ A bean can be defined by using following xml syntax.  
+`<bean id="home" class="com.atul.Home" />`
++ All prperties inside a bean can be defined by using `<property/>` tag inside a bean.
+`<property name="myTeam" ref="home" />`
++ Note that `ref` can be used to refer to other beans, however `value` is used for primitive or String.
 
