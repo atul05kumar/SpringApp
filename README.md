@@ -25,6 +25,14 @@ This behaviour can be overridden by providing the bean name in the params of `@C
 this makes scan faster.  For Example, if only `com` is defined in the component scan, then entire project including all the dependencies is going to get scanned,
 which will slow this down at the startup.
 + Another approach is to use Java Standard annotation called `@Resource` which is included in javax,
-to configure the bean, in this case the lookup of bean happens by name of variable\ 
-For Example:
+to configure the bean, in this case the lookup of bean happens by name of variable  
+For Example:  
+```java
+@Configuration
+public class AppConfig {
+    @Resource
+    private Team home;
+}
+``` 
+will look for a class with name `Home` to configure the bean.
 
