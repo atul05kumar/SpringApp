@@ -45,10 +45,11 @@ will look for a class with name `Home` to configure the bean.
 </beans>
 ```
 + Here, `xmlns` stands for XML namespace, declares the namespace for a xml tag.
-The line starting with `xsi:schemaLocation` tells to validate the xml against the schema define by `http://www.springframework.org/schema/beans/spring-beans.xsd`
+The line starting with `xsi:schemaLocation` tells to validate the xml against the schema defined by `http://www.springframework.org/schema/beans/spring-beans.xsd`
+    + There can be multiple schemas defined in the `schemaLocation` tag in the pairs of namespace and actual schema `xsd` file.
 + A bean can be defined by using following xml syntax.  
 `<bean id="home" class="com.atul.Home" />`
 + All prperties inside a bean can be defined by using `<property/>` tag inside a bean.
 `<property name="myTeam" ref="home" />`
 + Note that `ref` can be used to refer to other beans, however `value` is used for primitive or String.
-
++ The component scan can be enabled in xml file using `<context:component-scan base-package="com.atul"/>`
