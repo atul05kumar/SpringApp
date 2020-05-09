@@ -8,6 +8,9 @@
     + Using a xml config file.
     + Using annotations as and when required.
     + Using a Java configuration file that uses `@Configuration` annotation. (Recommended).
++ Using the application context, we can get the count of beans created, or the beans' name itself.
++ `@Import(ConfigClassName.class)` can be used to import additional config class in the existing one.
++ `@ImportResource()` can be used to import non java resources such as a xml config file.
 
 
 
