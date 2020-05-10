@@ -42,7 +42,8 @@ will look for a class with name `Home` to configure the bean.
 ```xml
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 </beans>
 ```
@@ -64,5 +65,42 @@ and it does not make sense to use the bean without having some members set, then
 + Default scope can be changed from singleton to prototype by putting @Scope("prototype") next to the `@Bean` annotation.
 + There are other scopes as well, and we can if we want define our own custom scopes.
 + Another important thing is that we cannot instantiate abstract classes using spring. To use them, we need to provide the factory method to get their instance.
-    + If the factory method lies in another class, then that bean also need to be instantiated and refered back by using `factory-bean`.
+    + If the factory method lies in another class, then that bean also need to be instantiated and referred back by using `factory-bean`.
 
+### Initialization and Destruction
++ If we need to perform some action as soon as bean is built, and something just after the bean has been destroyed.
+We can do so by providing the methods to be invoked at the time of initialization and destruction, in `@Bean` annotation.  
+`@Bean(initMethod = "init", destroyMethod = "endMethod")`
+    + However, in this way, there is no option to provide arguments to the init and destroy method.
+    + This method can be used to invoke library init and destroy methods as well even though we do not own the source code.
+    + Another thing to note is, there is no guarantee that destroy method will be invoked, as Spring does not necessarily destroys all beans when the program exists.
++ Another way to do this is by providing annotations on the actual init and destroy methods which are present in the same class as bean. These annotations are `@PostConstruct` and `@PreDestroy`
+    + One thing to note here is that we need to have the source code available to us, in order to put this annotations on, hence this cannot be done on a library bean.
+    + However, in this case, passing of arguments is allowed since we are using actual methods here.
+    + Again, Spring does not guarantee hat `@PreDestroy` will be invoked.
++ To solve the problem of Pre-Destroy method not been invokes, we can use the Spring Context Class such as `AnnotationConfigApplicationContext` which has a `close()` method.
+    + This close method destroy all the beans, and invoke `@PostConstruct` method for all **Singleton** beans.
+    + Note : If the bean scope is not singleton, then the `@PostConstruct` method will not be called even though the bean is destroyed.
++ These annotations are part of JSR (Java Specification Request) 250.
+
+### AOP(Aspect Oriented Programming) Concepts
++ This requires understanding on AOP, left out for further reading.
+
+### Testing in Spring
++ In a simple Junit Setup, `@Before` can be used to call setup methods, which sets up the Application Context. Then `@Test` from junit can be used to write a test.
+    + One problem is, the setup method is going to get invoked multiple times.
++ We can use following annotations on a test class to let Spring know which test framework we are using and manage it.
+```java
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppConfig.class)
+```
++ Now all bean required to setup the test can be auto wired and cached, and are not loaded again and again for each test case.
++ This mechanism falls more in the lines of integration testing.
++ #### Transactional Tests
+    + Left out here, for further reading.
+### Declarative Transaction Management
++ ACID Properties (Atomic, Consistent, Isolated, Durable)
++ Springs provides an annotation calles `@Transactional` to manage a transaction.
+    + However, Spring does not have its own transaction manager.
+    + `@Transactional` can either be used on a class or a method.
+    
